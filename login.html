@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Din familjesajt — Logga in</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy: #0D1B2A;
+      --navy-mid: #112236;
+      --navy-light: #1a3250;
+      --gold: #C9A96E;
+      --gold-light: #e8c98a;
+      --cream: #F5F0E8;
+      --text-dim: rgba(245,240,232,0.6);
+    }
+
+    html, body {
+      min-height: 100%;
+      font-family: 'Jost', sans-serif;
+      background: var(--navy);
+      color: var(--cream);
+      overflow-x: hidden;
+    }
+
+    /* ── STJÄRNHIMMEL ── */
+    #sky {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(ellipse at 50% 0%, #1a3a6e 0%, #0a1520 55%, #060d14 100%);
+      z-index: 0;
+    }
+
+    .stars-layer {
+      position: absolute;
+      inset: 0;
+      background-image:
+        radial-gradient(1px 1px at 10% 15%, rgba(255,255,255,0.9) 0%, transparent 100%),
+        radial-gradient(1px 1px at 25% 8%, rgba(255,255,255,0.7) 0%, transparent 100%),
+        radial-gradient(1.5px 1.5px at 38% 22%, rgba(255,255,255,0.8) 0%, transparent 100%),
+        radial-gradient(1px 1px at 50% 5%, rgba(255,255,255,0.9) 0%, transparent 100%),
+        radial-gradient(1px 1px at 62% 18%, rgba(255,255,255,0.6) 0%, transparent 100%),
+        radial-gradient(1.5px 1.5px at 75% 12%, rgba(255,255,255,0.8) 0%, transparent 100%),
+        radial-gradient(1px 1px at 88% 7%, rgba(255,255,255,0.9) 0%, transparent 100%),
+        radial-gradient(1px 1px at 15% 35%, rgba(255,255,255,0.5) 0%, transparent 100%),
+        radial-gradient(1px 1px at 32% 42%, rgba(255,255,255,0.7) 0%, transparent 100%),
+        radial-gradient(1.5px 1.5px at 55% 30%, rgba(255,255,255,0.6) 0%, transparent 100%),
+        radial-gradient(1px 1px at 70% 38%, rgba(255,255,255,0.8) 0%, transparent 100%),
+        radial-gradient(1px 1px at 82% 28%, rgba(255,255,255,0.5) 0%, transparent 100%),
+        radial-gradient(1px 1px at 92% 40%, rgba(255,255,255,0.7) 0%, transparent 100%),
+        radial-gradient(1px 1px at 5% 55%, rgba(255,255,255,0.4) 0%, transparent 100%),
+        radial-gradient(1.5px 1.5px at 20% 60%, rgba(255,255,255,0.6) 0%, transparent 100%),
+        radial-gradient(1px 1px at 45% 50%, rgba(255,255,255,0.5) 0%, transparent 100%),
+        radial-gradient(1px 1px at 65% 55%, rgba(255,255,255,0.7) 0%, transparent 100%),
+        radial-gradient(1px 1px at 85% 48%, rgba(255,255,255,0.4) 0%, transparent 100%),
+        radial-gradient(2px 2px at 30% 20%, rgba(200,180,255,0.6) 0%, transparent 100%),
+        radial-gradient(2px 2px at 60% 10%, rgba(180,200,255,0.5) 0%, transparent 100%),
+        radial-gradient(1.5px 1.5px at 78% 25%, rgba(255,220,180,0.5) 0%, transparent 100%);
+    }
+
+    .stars-twinkle {
+      animation: twinkle 4s ease-in-out infinite alternate;
+    }
+    .stars-twinkle-2 {
+      animation: twinkle 6s ease-in-out infinite alternate-reverse;
+    }
+
+    @keyframes twinkle {
+      0% { opacity: 0.6; }
+      100% { opacity: 1; }
+    }
+
+    /* ── WAVES ── */
+    #waves {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 220px;
+      z-index: 1;
+    }
+
+    .wave {
+      position: absolute;
+      bottom: 0;
+      left: -100%;
+      width: 300%;
+      height: 100%;
+    }
+
+    .wave svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .wave-1 { animation: wave-anim 12s linear infinite; opacity: 0.6; }
+    .wave-2 { animation: wave-anim 16s linear infinite reverse; opacity: 0.4; bottom: -10px; }
+    .wave-3 { animation: wave-anim 20s linear infinite; opacity: 0.3; bottom: -20px; }
+
+    @keyframes wave-anim {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(33.33%); }
+    }
+
+    /* ── CONTAINER ── */
+    .login-wrap {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 2rem;
+    }
+
+    /* ── LOGO / RUBRIK ── */
+    .login-logo {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+
+    .login-logo .crest {
+      font-size: 3rem;
+      line-height: 1;
+      margin-bottom: 0.5rem;
+      filter: drop-shadow(0 0 20px rgba(201,169,110,0.4));
+    }
+
+    .login-logo h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.2rem;
+      font-weight: 300;
+      letter-spacing: 0.06em;
+      color: var(--cream);
+    }
+
+    .login-logo p {
+      font-size: 0.8rem;
+      font-weight: 300;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-top: 0.3rem;
+    }
+
+    /* ── KORT ── */
+    .login-card {
+      background: rgba(13, 27, 42, 0.7);
+      border: 1px solid rgba(201,169,110,0.25);
+      border-radius: 16px;
+      backdrop-filter: blur(18px);
+      padding: 2.5rem 2.8rem;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: 0 8px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.04);
+    }
+
+    .form-group {
+      margin-bottom: 1.3rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.5rem;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 0.85rem 1rem;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(201,169,110,0.2);
+      border-radius: 8px;
+      color: var(--cream);
+      font-family: 'Jost', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 300;
+      outline: none;
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .form-group input::placeholder {
+      color: rgba(245,240,232,0.3);
+    }
+
+    .form-group input:focus {
+      border-color: rgba(201,169,110,0.6);
+      background: rgba(255,255,255,0.08);
+    }
+
+    .btn-login {
+      width: 100%;
+      padding: 0.9rem;
+      background: linear-gradient(135deg, #b8915a, #c9a96e);
+      border: none;
+      border-radius: 8px;
+      color: var(--navy);
+      font-family: 'Jost', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.15s;
+      margin-top: 0.5rem;
+    }
+
+    .btn-login:hover { opacity: 0.9; }
+    .btn-login:active { transform: scale(0.99); }
+    .btn-login:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    #msg {
+      margin-top: 1rem;
+      font-size: 0.83rem;
+      text-align: center;
+      min-height: 1.2em;
+      color: var(--text-dim);
+    }
+
+    #msg.error { color: #ff8080; }
+    #msg.success { color: #80e0a0; }
+
+    #resetCard { display: none; }
+    #resetCard h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem;
+      font-weight: 300;
+      color: var(--gold);
+      text-align: center;
+      margin-bottom: 1.2rem;
+      letter-spacing: 0.05em;
+    }
+
+    .pass-wrap {
+      position: relative;
+    }
+    .pass-wrap input {
+      padding-right: 2.8rem;
+    }
+    .pass-toggle {
+      position: absolute;
+      right: 0.8rem;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--text-dim);
+      font-size: 1.1rem;
+      padding: 0;
+      line-height: 1;
+    }
+    .pass-toggle:hover { color: var(--gold); }
+
+    .footer-note {
+      margin-top: 2rem;
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      color: rgba(245,240,232,0.25);
+      text-align: center;
+      text-transform: uppercase;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Stjärnhimmel -->
+  <div id="sky">
+    <div class="stars-layer stars-twinkle"></div>
+    <div class="stars-layer stars-twinkle-2" style="transform:rotate(180deg) scale(0.8); opacity:0.5;"></div>
+  </div>
+
+  <!-- Vågor -->
+  <div id="waves">
+    <div class="wave wave-1">
+      <svg viewBox="0 0 1200 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0,60 C150,100 350,0 600,60 C850,120 1050,20 1200,60 L1200,120 L0,120 Z" fill="rgba(17,34,54,0.8)"/>
+      </svg>
+    </div>
+    <div class="wave wave-2">
+      <svg viewBox="0 0 1200 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0,80 C200,20 400,100 600,40 C800,0 1000,80 1200,40 L1200,120 L0,120 Z" fill="rgba(10,21,32,0.6)"/>
+      </svg>
+    </div>
+    <div class="wave wave-3">
+      <svg viewBox="0 0 1200 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0,40 C300,120 600,0 900,80 C1050,120 1150,40 1200,60 L1200,120 L0,120 Z" fill="rgba(6,13,20,0.9)"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Formulär -->
+  <div class="login-wrap">
+    <div class="login-logo">
+      <div class="crest">🌲</div>
+      <h1>Din familjesajt</h1>
+      <p>Privat familjesajt</p>
+    </div>
+
+    <!-- Vanlig inloggning -->
+    <div class="login-card" id="loginCard">
+      <div class="form-group">
+        <label for="email">E-postadress</label>
+        <input type="email" id="email" placeholder="din@email.se" autocomplete="email" />
+      </div>
+      <div class="form-group">
+        <label for="password">Lösenord</label>
+        <div class="pass-wrap">
+          <input type="password" id="password" placeholder="••••••••" autocomplete="current-password" />
+          <button type="button" class="pass-toggle" onclick="togglePass('password',this)" aria-label="Visa/dölj lösenord">👁</button>
+        </div>
+      </div>
+      <button class="btn-login" id="loginBtn" onclick="doLogin()">Logga in</button>
+      <div id="msg"></div>
+      <p style="text-align:center;margin-top:14px;">
+        <a href="#" onclick="showForgot();return false;" style="color:#c8a97e;font-size:0.85rem;opacity:0.8;">Glömt lösenordet?</a>
+      </p>
+      <div style="margin-top:1.2rem;padding:0.9rem 1rem;background:rgba(201,169,110,0.08);border:1px solid rgba(201,169,110,0.2);border-radius:8px;">
+        <p style="font-size:0.78rem;color:rgba(245,240,232,0.65);line-height:1.6;text-align:center;">
+          <strong style="color:#c8a97e;">Loggar in första gången?</strong><br>
+          Klicka på <em>Glömt lösenordet?</em> ovan, skriv din e-post och följ länken du får. Då sätter du ditt eget lösenord.
+        </p>
+      </div>
+      <div style="margin-top:0.8rem;padding:0.7rem 1rem;border-radius:8px;">
+        <p style="font-size:0.75rem;color:rgba(245,240,232,0.4);line-height:1.6;text-align:center;">
+          När du är inloggad hittar du <em>Logga ut</em>-knappen längst upp till höger på alla sidor.
+        </p>
+      </div>
+    </div>
+
+    <!-- Glömt lösenord (visas vid klick på länken) -->
+    <div class="login-card" id="forgotCard" style="display:none;">
+      <h2 style="font-size:1.2rem;margin-bottom:1rem;">Återställ lösenord</h2>
+      <div class="form-group">
+        <label for="forgotEmail">Din e-postadress</label>
+        <input type="email" id="forgotEmail" placeholder="din@email.se" autocomplete="email" />
+      </div>
+      <button class="btn-login" id="forgotBtn" onclick="doForgot()">Skicka återställningslänk</button>
+      <div id="forgotMsg"></div>
+      <p style="text-align:center;margin-top:12px;">
+        <a href="#" onclick="showLogin();return false;" style="color:#c8a97e;font-size:0.85rem;opacity:0.8;">← Tillbaka till inloggning</a>
+      </p>
+    </div>
+
+    <!-- Nytt lösenord (visas vid återställningslänk) -->
+    <div class="login-card" id="resetCard">
+      <h2>Välj nytt lösenord</h2>
+      <div class="form-group">
+        <label for="newpass">Nytt lösenord</label>
+        <div class="pass-wrap">
+          <input type="password" id="newpass" placeholder="Minst 6 tecken" />
+          <button type="button" class="pass-toggle" onclick="togglePass('newpass',this)" aria-label="Visa/dölj lösenord">👁</button>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="newpass2">Upprepa lösenord</label>
+        <div class="pass-wrap">
+          <input type="password" id="newpass2" placeholder="Samma igen" />
+          <button type="button" class="pass-toggle" onclick="togglePass('newpass2',this)" aria-label="Visa/dölj lösenord">👁</button>
+        </div>
+      </div>
+      <button class="btn-login" id="resetBtn" onclick="doReset()">Spara lösenord</button>
+      <div id="resetMsg"></div>
+    </div>
+
+    <p class="footer-note">Inbjudningsbaserad — kontakta administratören för åtkomst</p>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const SUPABASE_URL = 'https://equichnyxhbkpnpigavx.supabase.co';
+    const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVxdWljaG55eGhia3BucGlnYXZ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA3NTgyMDYsImV4cCI6MjA5NjMzNDIwNn0.skU-U27x66qMPDjmk0_SQZPsaVqP7JAigpcsSqFjX_A';
+
+    // Spara URL-parametrar INNAN Supabase createClient kan rensa dem
+    const _savedHash   = window.location.hash;
+    const _savedSearch = window.location.search;
+
+    // detectSessionInUrl: false — vi hanterar URL-tokens manuellt (undviker race condition)
+    // flowType: 'pkce' — skyddar mot e-postskannrar (t.ex. Outlook SafeLinks) som konsumerar länken
+    const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON, {
+      auth: { detectSessionInUrl: false, flowType: 'pkce' }
+    });
+
+    const emailEl = document.getElementById('email');
+    const passEl  = document.getElementById('password');
+    const msg     = document.getElementById('msg');
+    const btn     = document.getElementById('loginBtn');
+
+    // Enter-tangent
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Enter') doLogin();
+    });
+
+    async function doLogin() {
+      const email = emailEl.value.trim();
+      const pass  = passEl.value;
+
+      if (!email || !pass) {
+        showMsg('Fyll i e-post och lösenord.', 'error');
+        return;
+      }
+
+      btn.disabled = true;
+      showMsg('Loggar in…', '');
+
+      const { data, error } = await sb.auth.signInWithPassword({ email, password: pass });
+
+      if (error) {
+        showMsg('Fel e-post eller lösenord.', 'error');
+        btn.disabled = false;
+        return;
+      }
+
+      showMsg('Välkommen! Laddar…', 'success');
+      setTimeout(() => { window.location.href = 'index.html'; }, 800);
+    }
+
+    function showMsg(text, type) {
+      msg.textContent = text;
+      msg.className = type;
+    }
+
+    // ── Kolla om det är en återställningslänk ──
+    (async () => {
+      const hash   = _savedHash;   // Sparad innan createClient rensade hash
+      const search = _savedSearch; // Sparad för PKCE-flöde (?code=)
+
+      // Implicit flöde: hash innehåller access_token direkt (recovery eller invite)
+      if (hash && (hash.includes('type=recovery') || hash.includes('type=invite'))) {
+        document.getElementById('loginCard').style.display = 'none';
+        document.getElementById('resetCard').style.display = 'block';
+        const params = new URLSearchParams(hash.substring(1));
+        const access_token  = params.get('access_token');
+        const refresh_token = params.get('refresh_token');
+        if (access_token) {
+          await sb.auth.setSession({ access_token, refresh_token });
+        }
+        return;
+      }
+
+      // Vidarebefordrad från index.html (onAuthStateChange fångade PASSWORD_RECOVERY)
+      if (search && search.includes('recovery=1')) {
+        document.getElementById('loginCard').style.display = 'none';
+        document.getElementById('resetCard').style.display = 'block';
+        return;
+      }
+
+      // PKCE-flöde: ?code= i URL — Supabase hanterar utbytet automatiskt
+      if (search && search.includes('code=')) {
+        const urlParams = new URLSearchParams(search);
+        const code = urlParams.get('code');
+        if (code) {
+          const { error } = await sb.auth.exchangeCodeForSession(code);
+          if (!error) {
+            document.getElementById('loginCard').style.display = 'none';
+            document.getElementById('resetCard').style.display = 'block';
+          } else {
+            showMsg('Länken är ogiltig eller har löpt ut — begär en ny.', 'error');
+          }
+        }
+        return;
+      }
+
+      // Redan inloggad?
+      const { data } = await sb.auth.getSession();
+      if (data?.session) window.location.href = 'index.html';
+    })();
+
+    async function doReset() {
+      const p1  = document.getElementById('newpass').value;
+      const p2  = document.getElementById('newpass2').value;
+      const msg = document.getElementById('resetMsg');
+      const btn = document.getElementById('resetBtn');
+
+      if (!p1 || p1.length < 6) {
+        msg.textContent = 'Lösenordet måste vara minst 6 tecken.';
+        msg.className = 'error';
+        return;
+      }
+      if (p1 !== p2) {
+        msg.textContent = 'Lösenorden stämmer inte överens.';
+        msg.className = 'error';
+        return;
+      }
+
+      btn.disabled = true;
+      msg.textContent = 'Sparar…';
+      msg.className = '';
+
+      const { error } = await sb.auth.updateUser({ password: p1 });
+      if (error) {
+        msg.textContent = 'Fel: ' + error.message;
+        msg.className = 'error';
+        btn.disabled = false;
+        return;
+      }
+
+      msg.textContent = 'Lösenordet sparat! Loggar in…';
+      msg.className = 'success';
+      setTimeout(() => { window.location.href = 'index.html'; }, 1500);
+    }
+
+    function togglePass(id, btn) {
+      const el = document.getElementById(id);
+      el.type = el.type === 'password' ? 'text' : 'password';
+      btn.textContent = el.type === 'password' ? '👁' : '🙈';
+    }
+
+    function showForgot() {
+      document.getElementById('loginCard').style.display = 'none';
+      document.getElementById('forgotCard').style.display = 'block';
+      document.getElementById('forgotEmail').focus();
+    }
+    function showLogin() {
+      document.getElementById('forgotCard').style.display = 'none';
+      document.getElementById('loginCard').style.display = 'block';
+    }
+
+    async function doForgot() {
+      const email = document.getElementById('forgotEmail').value.trim();
+      const msgEl = document.getElementById('forgotMsg');
+      const btn   = document.getElementById('forgotBtn');
+      if (!email) { msgEl.textContent = 'Fyll i din e-postadress.'; msgEl.className = 'error'; return; }
+      btn.disabled = true; msgEl.textContent = 'Skickar…'; msgEl.className = '';
+      const { error } = await sb.auth.resetPasswordForEmail(email, {
+        redirectTo: 'https://ursus1030-dev.github.io/family-portal/login.html'
+      });
+      if (error) { msgEl.textContent = 'Fel: ' + error.message; msgEl.className = 'error'; btn.disabled = false; return; }
+      msgEl.textContent = 'Länk skickad! Kolla din e-post och klicka på länken.';
+      msgEl.className = 'success'; btn.disabled = true;
+    }
+  </script>
+</body>
+</html>

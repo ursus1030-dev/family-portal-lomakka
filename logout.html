@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Loggar ut…</title>
+  <style>
+    body {
+      margin: 0;
+      background: #0D1B2A;
+      color: rgba(245,240,232,0.7);
+      font-family: 'Jost', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      font-size: 1.1rem;
+    }
+  </style>
+</head>
+<body>
+  <p>Loggar ut…</p>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const SUPABASE_URL  = 'https://equichnyxhbkpnpigavx.supabase.co';
+    const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVxdWljaG55eGhia3BucGlnYXZ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA3NTgyMDYsImV4cCI6MjA5NjMzNDIwNn0.skU-U27x66qMPDjmk0_SQZPsaVqP7JAigpcsSqFjX_A';
+
+    const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+
+    (async () => {
+      await sb.auth.signOut();
+      window.location.href = 'login.html';
+    })();
+  </script>
+</body>
+</html>
