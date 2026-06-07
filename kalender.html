@@ -603,8 +603,18 @@ function addPrivateNavLinks(email) {
         author_emoji: selectedAuthor ? selectedAuthor.emoji : null,
       };
 
-      const { error } = await sb.from('kalender_events').insert(payload);
-      if (error) { alert('Kunde inte spara: ' + error.message); return; }
+      const { data: { session } } = await sb.auth.getSession();
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/kalender_events`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': SUPABASE_ANON,
+          'Authorization': 'Bearer ' + session.access_token,
+          'Prefer': 'return=minimal'
+        },
+        body: JSON.stringify(payload)
+      });
+      if (!res.ok) { alert('Kunde inte spara: ' + res.status); return; }
 
       // Reset form
       document.getElementById('evTitle').value = '';
