@@ -531,7 +531,7 @@
       if (!email) { msgEl.textContent = 'Fyll i din e-postadress.'; msgEl.className = 'error'; return; }
       btn.disabled = true; msgEl.textContent = 'Skickar…'; msgEl.className = '';
       const { error } = await sb.auth.resetPasswordForEmail(email, {
-        redirectTo: 'https://ursus1030-dev.github.io/family-portal/login.html'
+        redirectTo: 'https://ursus1030-dev.github.io/family-portal-lomakka/login.html'
       });
       if (error) { msgEl.textContent = 'Fel: ' + error.message; msgEl.className = 'error'; btn.disabled = false; return; }
       msgEl.textContent = 'Länk skickad! Kolla din e-post och klicka på länken.';
