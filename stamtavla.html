@@ -168,7 +168,7 @@
       border-color: var(--forest);
       min-width: 140px;
     }
-    .node-card.benke-card {
+    .node-card.medlem8-card {
       background: linear-gradient(135deg, rgba(201,169,110,0.1), rgba(201,169,110,0.05));
       border-color: var(--gold);
       border-style: dashed;
@@ -397,7 +397,7 @@
       <!-- Generation 1 -->
       <div class="gen-label">Stamhuset</div>
       <div class="tree-row" style="margin-bottom: 8px;">
-        <div class="node" id="node-peter" onclick="openPopup('peter')">
+        <div class="node" id="node-medlem1" onclick="openPopup('medlem1')">
           <div class="node-card root-card">
             <div class="node-avatar av-forest">?</div>
             <div class="node-name">Familjemedlem</div>
@@ -410,7 +410,7 @@
           <div style="font-size:1rem;color:rgba(61,92,58,0.35);">♥</div>
           <div style="width:24px;height:1.5px;background:rgba(61,92,58,0.25);"></div>
         </div>
-        <div class="node" id="node-carina" onclick="openPopup('carina')">
+        <div class="node" id="node-medlem2" onclick="openPopup('medlem2')">
           <div class="node-card root-card">
             <div class="node-avatar av-terra">?</div>
             <div class="node-name">Familjemedlem</div>
@@ -432,8 +432,8 @@
       <div class="tree-row" style="gap:48px; margin-bottom:8px;" id="row-gen2">
 
         
-        <div style="display:flex;flex-direction:column;align-items:center;" id="col-elias">
-          <div class="node" id="node-elias" onclick="openPopup('elias')">
+        <div style="display:flex;flex-direction:column;align-items:center;" id="col-medlem3">
+          <div class="node" id="node-medlem3" onclick="openPopup('medlem3')">
             <div class="node-card">
               <div class="node-avatar av-forest">?</div>
               <div class="node-name">Familjemedlem</div>
@@ -443,9 +443,9 @@
         </div>
 
         
-        <div style="display:flex;flex-direction:column;align-items:center;" id="col-tora">
+        <div style="display:flex;flex-direction:column;align-items:center;" id="col-medlem4">
           <div style="display:flex;align-items:center;gap:4px;">
-            <div class="node" id="node-tora" onclick="openPopup('tora')">
+            <div class="node" id="node-medlem4" onclick="openPopup('medlem4')">
               <div class="node-card">
                 <div class="node-avatar av-terra">?</div>
                 <div class="node-name">Familjemedlem</div>
@@ -458,7 +458,7 @@
               <div style="font-size:0.85rem;color:rgba(61,92,58,0.35);">♥</div>
               <div style="width:16px;height:1.5px;background:rgba(61,92,58,0.25);"></div>
             </div>
-            <div class="node" id="node-mattias" onclick="openPopup('mattias')">
+            <div class="node" id="node-medlem5" onclick="openPopup('medlem5')">
               <div class="node-card">
                 <div class="node-avatar av-bark">?</div>
                 <div class="node-name">Familjemedlem</div>
@@ -472,9 +472,9 @@
         </div>
 
         
-        <div style="display:flex;flex-direction:column;align-items:center;" id="col-alva">
+        <div style="display:flex;flex-direction:column;align-items:center;" id="col-medlem6">
           <div style="display:flex;align-items:center;gap:4px;">
-            <div class="node" id="node-alva" onclick="openPopup('alva')">
+            <div class="node" id="node-medlem6" onclick="openPopup('medlem6')">
               <div class="node-card">
                 <div class="node-avatar av-terra">?</div>
                 <div class="node-name">Familjemedlem</div>
@@ -486,7 +486,7 @@
               <div style="font-size:0.85rem;color:rgba(61,92,58,0.35);">♥</div>
               <div style="width:16px;height:1.5px;background:rgba(61,92,58,0.25);"></div>
             </div>
-            <div class="node" id="node-isak" onclick="openPopup('isak')">
+            <div class="node" id="node-medlem7" onclick="openPopup('medlem7')">
               <div class="node-card">
                 <div class="node-avatar av-forest">?</div>
                 <div class="node-name">Familjemedlem</div>
@@ -501,11 +501,11 @@
 
       </div><!-- /row-gen2 -->
 
-      <!-- V-linjer ner till barnbarn (Tora & Alva) -->
+      <!-- V-linjer ner till barnbarn -->
       <div style="display:flex;justify-content:center;gap:48px;margin-bottom:4px;" id="vlines-gen2">
-        <div style="width:110px;"></div><!-- placeholder Elias -->
-        <div class="v-line" style="height:24px;width:1.5px;"></div><!-- Tora -->
-        <div class="v-line" style="height:24px;width:1.5px;"></div><!-- Alva -->
+        <div style="width:110px;"></div><!-- placeholder -->
+        <div class="v-line" style="height:24px;width:1.5px;"></div>
+        <div class="v-line" style="height:24px;width:1.5px;"></div>
       </div>
 
       <!-- Generation 3 -->
@@ -516,8 +516,8 @@
         <div style="width:110px;"></div>
 
         
-        <div style="display:flex;flex-direction:column;align-items:center;" id="col-jenna">
-          <div class="node" id="node-jenna" onclick="openPopup('jenna')">
+        <div style="display:flex;flex-direction:column;align-items:center;" id="col-barnbarn1">
+          <div class="node" id="node-barnbarn1" onclick="openPopup('barnbarn1')">
             <div class="node-card">
               <div class="node-avatar av-baby">👶</div>
               <div class="node-name">Familjemedlem</div>
@@ -527,16 +527,16 @@
         </div>
 
         
-        <div style="display:flex;flex-direction:column;align-items:center;" id="col-svea-sigrid">
+        <div style="display:flex;flex-direction:column;align-items:center;" id="col-barnbarn2-barnbarn3">
           <div style="display:flex;gap:10px;">
-            <div class="node" id="node-svea" onclick="openPopup('svea')">
+            <div class="node" id="node-barnbarn2" onclick="openPopup('barnbarn2')">
               <div class="node-card">
                 <div class="node-avatar av-toddler">?</div>
                 <div class="node-name">Familjemedlem</div>
                 <div class="node-detail">—</div>
               </div>
             </div>
-            <div class="node" id="node-sigrid" onclick="openPopup('sigrid')">
+            <div class="node" id="node-barnbarn3" onclick="openPopup('barnbarn3')">
               <div class="node-card">
                 <div class="node-avatar av-baby">👶</div>
                 <div class="node-name">Familjemedlem</div>
@@ -552,8 +552,8 @@
       <div style="border-top: 1px dashed rgba(201,169,110,0.3); margin: 0.5rem 2rem 1rem; padding-top: 1rem;">
         <div class="gen-label" style="margin-bottom:0.5rem;">Allas farbror</div>
         <div class="tree-row">
-          <div class="node" id="node-benke" onclick="openPopup('benke')">
-            <div class="node-card benke-card">
+          <div class="node" id="node-medlem8" onclick="openPopup('medlem8')">
+            <div class="node-card medlem8-card">
               <div class="node-avatar av-gold">?</div>
               <div class="node-name">Familjemedlem</div>
               <div class="node-detail">—</div>
@@ -608,67 +608,67 @@ function addPrivateNavLinks(email) {
 
     /* ── FAMILJEDATA — fyll i er egen familj här ── */
     const PEOPLE = {
-      peter: {
+      medlem1: {
         initials: '?', avClass: 'av-forest',
         name: 'Familjemedlem', role: 'Fyll i roll',
         emoji: '🌲',
         facts: []
       },
-      carina: {
+      medlem2: {
         initials: '?', avClass: 'av-terra',
         name: 'Familjemedlem', role: 'Fyll i roll',
         emoji: '🌸',
         facts: []
       },
-      elias: {
+      medlem3: {
         initials: '?', avClass: 'av-forest',
         name: 'Familjemedlem', role: 'Fyll i roll',
         emoji: '😊',
         facts: []
       },
-      tora: {
+      medlem4: {
         initials: '?', avClass: 'av-terra',
         name: 'Familjemedlem', role: 'Fyll i roll',
         emoji: '☀️',
         facts: []
       },
-      mattias: {
+      medlem5: {
         initials: '?', avClass: 'av-bark',
         name: 'Familjemedlem', role: 'Fyll i roll',
         emoji: '🔧',
         facts: []
       },
-      alva: {
+      medlem6: {
         initials: '?', avClass: 'av-terra',
         name: 'Familjemedlem', role: 'Fyll i roll',
         emoji: '🎨',
         facts: []
       },
-      isak: {
+      medlem7: {
         initials: '?', avClass: 'av-forest',
         name: 'Familjemedlem', role: 'Fyll i roll',
         emoji: '⚡',
         facts: []
       },
-      jenna: {
+      barnbarn1: {
         initials: '?', avClass: 'av-baby',
         name: 'Familjemedlem', role: 'Fyll i roll',
         emoji: '🍼',
         facts: []
       },
-      svea: {
+      barnbarn2: {
         initials: '?', avClass: 'av-toddler',
         name: 'Familjemedlem', role: 'Fyll i roll',
         emoji: '🌼',
         facts: []
       },
-      sigrid: {
+      barnbarn3: {
         initials: '?', avClass: 'av-baby',
         name: 'Familjemedlem', role: 'Fyll i roll',
         emoji: '🍼',
         facts: []
       },
-      benke: {
+      medlem8: {
         initials: '?', avClass: 'av-gold',
         name: 'Familjemedlem', role: 'Fyll i roll',
         emoji: '😄',
