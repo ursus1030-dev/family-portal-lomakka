@@ -878,13 +878,6 @@
       auth: { flowType: 'pkce' }
     });
 
-    // Fånga PASSWORD_RECOVERY-event (om hash-check ovan missades pga cache)
-    sb.auth.onAuthStateChange((event) => {
-      if (event === 'PASSWORD_RECOVERY') {
-        window.location.href = 'login.html?logout=1';
-      }
-    });
-
     // Kolla session – om inte inloggad → login
     sb.auth.getSession().then(({ data }) => {
       if (!data?.session) { window.location.href = 'login.html?logout=1'; return; }
