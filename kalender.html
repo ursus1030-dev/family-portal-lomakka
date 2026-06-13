@@ -183,10 +183,10 @@
       border-radius: 20px; margin-top: 0.3rem; font-weight: 500;
     }
     .event-delete {
-      background: none; border: none; cursor: pointer; color: #ccc; font-size: 1rem;
-      padding: 0.2rem; transition: color 0.2s; flex-shrink: 0;
+      background: none; border: none; cursor: pointer; color: #e57373; font-size: 1.1rem;
+      padding: 0.3rem 0.5rem; border-radius: 6px; transition: background 0.2s, color 0.2s; flex-shrink: 0;
     }
-    .event-delete:hover { color: var(--terra); }
+    .event-delete:hover { background: #fdecea; color: #c0392b; }
 
     /* ── MODAL ── */
     .modal-overlay {
@@ -409,11 +409,13 @@ function addPrivateNavLinks(email) {
     let currentMonth = new Date().getMonth(); // 0-indexed
     let allEvents    = [];
     let selectedAuthor = null;
+    let _accessToken  = null; // sparas vid login, återanvänds istället för sb.auth.getSession()
 
     // ── AUTH ──
     sb.auth.getSession().then(({ data }) => {
       if (!data?.session) { window.location.href = 'login.html'; return; }
-      addPrivateNavLinks((data.session||data?.session).user.email.toLowerCase());
+      _accessToken = data.session.access_token;
+      addPrivateNavLinks(data.session.user.email.toLowerCase());
       init();
     });
 
@@ -431,10 +433,9 @@ function addPrivateNavLinks(email) {
 
     // ── LOAD EVENTS ──
     async function loadEvents() {
-      const { data: { session } } = await sb.auth.getSession();
-      const token = session?.access_token || SUPABASE_ANON;
+      const token = _accessToken || SUPABASE_ANON;
       const res = await fetch(`${SUPABASE_URL}/rest/v1/kalender_events?select=*&order=event_date.asc`, {
-        headers: { 'apikey': SUPABASE_ANON, 'Authorization': 'Bearer ' + token }
+        headers: { 'apikey': SUPABASE_ANON, 'Authorization': 'Bearer ' + token, 'Cache-Control': 'no-store' }
       });
       if (!res.ok) { console.error('loadEvents failed:', res.status); return; }
       allEvents = await res.json();
@@ -607,13 +608,12 @@ function addPrivateNavLinks(email) {
         author_emoji: selectedAuthor ? selectedAuthor.emoji : null,
       };
 
-      const { data: { session } } = await sb.auth.getSession();
       const res = await fetch(`${SUPABASE_URL}/rest/v1/kalender_events`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'apikey': SUPABASE_ANON,
-          'Authorization': 'Bearer ' + session.access_token,
+          'Authorization': 'Bearer ' + _accessToken,
           'Prefer': 'return=minimal'
         },
         body: JSON.stringify(payload)
