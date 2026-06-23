@@ -372,9 +372,6 @@
   <button class="tab-btn active" onclick="showTab('fiske')" id="tab-fiske">
     <span class="tab-emoji">🎣</span> Fiske
   </button>
-  <button class="tab-btn" onclick="showTab('sopor')" id="tab-sopor">
-    <span class="tab-emoji">🗑️</span> Sopor
-  </button>
   <button class="tab-btn" onclick="showTab('talamod')" id="tab-talamod">
     <span class="tab-emoji">😇</span> Tålamod
   </button>
@@ -401,21 +398,6 @@
 
   <div style="font-size:0.75rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:rgba(28,24,16,0.4);margin-bottom:0.8rem;">Alla fångster</div>
   <div class="fish-grid" id="fish-grid">
-  </div>
-</section>
-
-<!-- ══════════ SOPOR ══════════ -->
-<section id="sec-sopor" class="section">
-  <div class="section-header">
-    <div class="section-title">
-      <small>Vem är städmästaren?</small>
-      Sophanteraren
-    </div>
-    <button class="btn-add" onclick="openModal('modal-sopor')">+ Tömt soptunnan</button>
-  </div>
-
-  <div class="leaderboard" id="sopor-leaderboard">
-    <div class="empty"><div class="empty-icon">🗑️</div><p>Ingen har tömt soporna än...</p></div>
   </div>
 </section>
 
@@ -538,35 +520,6 @@
     <div class="form-actions">
       <button class="btn-cancel" onclick="closeModal('modal-fisk')">Avbryt</button>
       <button class="btn-save" onclick="saveFisk()">Spara fångst</button>
-    </div>
-  </div>
-</div>
-
-<!-- Modal: Sopor -->
-<div class="modal-overlay" id="modal-sopor">
-  <div class="modal">
-    <h2>🗑️ Tömt soptunnan</h2>
-    <div class="form-group">
-      <label>Vem tömde?</label>
-      <select id="sopor-person">
-        <option value="">Välj person</option>
-        <option>Familjemedlem 1</option><option>Familjemedlem 2</option><option>Familjemedlem 3</option>
-        <option>Familjemedlem 4</option><option>Familjemedlem 5</option><option>Familjemedlem 6</option>
-        <option>Familjemedlem 7</option>
-        <option>Familjemedlem 8</option><option>Familjemedlem 9</option>
-      </select>
-    </div>
-    <div class="form-group">
-      <label>Datum</label>
-      <input type="date" id="sopor-datum" />
-    </div>
-    <div class="form-group">
-      <label>Kommentar (valfri)</label>
-      <input type="text" id="sopor-kommentar" placeholder="t.ex. 'Det var tungt idag!'" />
-    </div>
-    <div class="form-actions">
-      <button class="btn-cancel" onclick="closeModal('modal-sopor')">Avbryt</button>
-      <button class="btn-save" onclick="saveSopor()">Spara</button>
     </div>
   </div>
 </div>
@@ -787,46 +740,6 @@ async function saveFisk() {
   loadFiske();
 }
 
-/* ════ SOPOR ════ */
-async function loadSopor() {
-  const { data } = await sb.from('sopor').select('*').order('created_at', { ascending: false });
-  const lb = document.getElementById('sopor-leaderboard');
-  if (!data || !data.length) {
-    lb.innerHTML = '<div class="empty"><div class="empty-icon">🗑️</div><p>Ingen har tömt soporna än...</p></div>';
-    return;
-  }
-  const counts = {};
-  data.forEach(r => { counts[r.person] = (counts[r.person] || 0) + 1; });
-  const sorted = Object.entries(counts).sort((a,b) => b[1]-a[1]);
-  const maxCount = sorted[0][1];
-  const medals = ['🥇','🥈','🥉'];
-  lb.innerHTML = sorted.map(([person, cnt], i) => `
-    <div class="lb-row">
-      <div class="lb-rank">${medals[i] || (i+1)}</div>
-      <div class="lb-avatar">${EMOJI_MAP[person] || '👤'}</div>
-      <div class="lb-info">
-        <div class="lb-name">${esc(person)}</div>
-        <div class="trash-bar"><div class="trash-bar-fill" style="width:${Math.round(cnt/maxCount*100)}%"></div></div>
-      </div>
-      <div class="lb-score">${cnt}<small> ggr</small></div>
-    </div>
-  `).join('');
-}
-
-async function saveSopor() {
-  const person = document.getElementById('sopor-person').value;
-  const datum = document.getElementById('sopor-datum').value;
-  const kommentar = document.getElementById('sopor-kommentar').value.trim();
-  if (!person) { toast('Välj vem som tömde!'); return; }
-  const { error } = await sb.from('sopor').insert({ person, datum, kommentar });
-  if (error) { toast('Fel: ' + error.message); return; }
-  closeModal('modal-sopor');
-  toast('🗑️ Tomt! Bra jobbat!');
-  document.getElementById('sopor-person').value = '';
-  document.getElementById('sopor-kommentar').value = '';
-  loadSopor();
-}
-
 /* ════ TÅLAMOD ════ */
 async function loadTalamod() {
   const { data } = await sb.from('talamod').select('*').order('created_at', { ascending: false });
@@ -899,7 +812,6 @@ function formatDate(ts) {
 
 function loadAll() {
   loadFiske();
-  loadSopor();
   loadTalamod();
 }
 
