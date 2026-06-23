@@ -1,0 +1,13 @@
+name: keep-alive
+on:
+  schedule:
+    - cron: '17 6 * * 1,4'
+  workflow_dispatch:
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Supabase to prevent pause
+        run: |
+          KEY=$(curl -sS https://ursus1030-dev.github.io/family-portal-lomakka/index.html | grep -oE 'eyJ[A-Za-z0-9_.-]+' | head -1)
+          curl -sS -o /dev/null -w "ping %{http_code}\n" "https://equichnyxhbkpnpigavx.supabase.co/rest/v1/memories?select=id&limit=1" -H "apikey: $KEY" -H "Authorization: Bearer $KEY"
